@@ -1,6 +1,7 @@
 package com.dscleaver.sbt.quickfix
 
 import sbt._
+import scala.sys.process.Process
 
 object VimInteraction {
 
@@ -12,7 +13,7 @@ object VimInteraction {
     case _      => Process(List(vimExec, "--servername", vimServerName, "--remote-send", s"<esc>:$command<cr>")).!
   }
 
-  private def pyScript(cmd: String) = 
+  private def pyScript(cmd: String) =
      s"""|from neovim import attach
          |nvim = attach('socket', path='$nvimSocketFile')
          |nvim.command('$cmd')""".stripMargin

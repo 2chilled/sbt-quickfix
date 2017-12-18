@@ -17,11 +17,11 @@ scalacOptions += "-unchecked"
 publishMavenStyle := false
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.0" % "provided"
+  "org.scalatest" %% "scalatest" % "3.0.4" % "provided"
 )
 
-publishTo <<= (version) { v =>
-  def scalasbt(repo: String) = ("scalasbt " + repo, "http://repo.scala-sbt.org/scalasbt/sbt-plugin-" + repo)
-  val (name, repo) = if (v.endsWith("-SNAPSHOT")) scalasbt("snapshots") else scalasbt("releases")
-  Some(Resolver.url(name, url(repo))(Resolver.ivyStylePatterns))
-}
+//publishTo <<= (version) { v =>
+  //def scalasbt(repo: String) = ("scalasbt " + repo, "http://repo.scala-sbt.org/scalasbt/sbt-plugin-" + repo)
+  //val (name, repo) = if (v.endsWith("-SNAPSHOT")) scalasbt("snapshots") else scalasbt("releases")
+  //Resolver.url(name, url(repo))(Resolver.ivyStylePatterns)
+//}
