@@ -33,8 +33,6 @@ class QuickFixLogger(val output: File, vimExec: String, enableServer: Boolean)
         case _ => ""
       }).replaceFirst("\\[Error\\]", "").replaceFirst("\\[Warning\\]", "").trim
 
-    println(s"XXXXXXXXXXXXXXXXXXX $realMsg")
-
     e.getLevel match {
       case Level.INFO => handleInfoMessage(realMsg)
       case Level.ERROR => handleErrorMessage(realMsg)
