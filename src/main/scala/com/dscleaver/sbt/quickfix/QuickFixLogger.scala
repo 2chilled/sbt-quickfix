@@ -31,7 +31,7 @@ class QuickFixLogger(val output: File, vimExec: String, enableServer: Boolean)
           case _ => ""
         }
         case _ => ""
-      }).replaceFirst("\\[Error\\]", "").replaceFirst("\\[Warning\\]", "").trim
+      }).replaceFirst("\\[Error\\]", "").replaceFirst("\\[Warn\\]", "").trim
 
     e.getLevel match {
       case Level.INFO => handleInfoMessage(realMsg)
@@ -44,18 +44,19 @@ class QuickFixLogger(val output: File, vimExec: String, enableServer: Boolean)
   }
 
   def handleInfoMessage(message: String) = {
-    println(s"DEBUUUUUUUG info: $message")
+    //println(s"DEBUUUUUUUG info: $message")
     //if (message.toLowerCase.contains("initial source changes:")) {
-    if (message.toLowerCase.contains("compiling")) {
+    if(message.toLowerCase.contains("done compiling")) {
+      call(vimExec, "cfile %s".format(output.toString))
+    } else if (message.toLowerCase.contains("compiling")) {
       IO.delete(output)
       IO.touch(List(output))
 
       if (enableServer) {
-        println("CALLING cgetfile")
+        //println("CALLING cgetfile")
         call(vimExec, "cgetfile %s".format(output.toString))
       }
     }
-
   }
 
   def handleDebugMessage(message: String) = ()
@@ -63,7 +64,7 @@ class QuickFixLogger(val output: File, vimExec: String, enableServer: Boolean)
   val regex = "([%s])(:%i)".r
   def handleErrorMessage(message: String) = {
     if (enableServer && message.toLowerCase.contains("compilation failed")) {
-      println("CALLING cfile")
+      //println("CALLING cfile")
       call(vimExec, "cfile %s".format(output.toString))
     } else {
       append0(output, "error", message)
